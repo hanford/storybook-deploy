@@ -1,0 +1,28 @@
+{
+  "name": "storybook-deploy",
+  "version": "0.1.0",
+  "description": "Deploy your storybook as a gh-page.",
+  "bin": {
+    "storybook-deploy": "./bin/storybook-deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hanford/storybook-deploy.git"
+  },
+  "keywords": [
+    "storybook",
+    "deploy",
+    "static",
+    "gh-page"
+  ],
+  "author": "Jack Hanford <jackhanford@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hanford/storybook-deploy/issues"
+  },
+  "homepage": "https://github.com/hanford/storybook-deploy#readme",
+  "dependencies": {
+    "chalk": "~2.1.0",
+    "shelljs": "~0.7.8"
+  }
+}

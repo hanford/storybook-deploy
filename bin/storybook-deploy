@@ -1,0 +1,50 @@
+#!/usr/bin/env node
+
+const shell = require('shelljs')
+const path = require('path')
+const chalk = require('chalk')
+
+const OUTPUT_DIR = 'out' + Math.ceil(Math.random() * 9999)
+
+console.log(chalk.cyan('> Getting the git remote URL'))
+const GIT_URL = exec('git config --get remote.origin.url')
+
+shell.mkdir(OUTPUT_DIR)
+
+console.log(chalk.green('> Building storybook'))
+
+exec('npm run build-storybook -- -o ' + OUTPUT_DIR)
+
+// go to the out directory and create a *new* Git repo
+shell.cd(OUTPUT_DIR)
+
+exec('git init')
+
+exec('git add .')
+exec('git commit -m \'Deploy Storybook to gh-pages\'')
+
+console.log(chalk.cyan(`> Add remote origin ${GIT_URL}`))
+exec(`git remote add origin ${GIT_URL}`)
+
+// Force push to the remote repo's gh-pages
+exec('git push origin master:gh-pages --force')
+
+shell.cd('..')
+shell.rm('-rf', OUTPUT_DIR)
+
+console.log(chalk.green('> Storybook deployed!'))
+
+function exec (command) {
+  console.log(chalk.cyan(`> Executing: ${command}`))
+
+  const options = { silent: true }
+  const ref = shell.exec(command, options)
+
+  if (ref.code === 0) {
+   return ref.stdout.trim()
+  }
+
+  const err = `running ${command}`
+
+  throw new Error(err)
+}
